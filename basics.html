@@ -1,0 +1,437 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Basics - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="intro.html">Table of Contents</a></li><li class="affix"><a href="about.html">About</a></li><li><a href="basics.html" class="active"><strong>1.</strong> Basics</a></li><li><a href="encoding.html"><strong>2.</strong> Encoding</a></li><li><a href="concurrency.html"><strong>3.</strong> Concurrency</a></li><li><a href="net.html"><strong>4.</strong> Networking</a></li><li><a href="app.html"><strong>5.</strong> Application development</a></li><li><a href="logging.html"><strong>6.</strong> Logging</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <!-- START - Rust Cookbook customization -->
+                        <i id="edit-button" class="fa fa-edit">Edit</i>
+                        <!-- END - Rust Cookbook customization -->
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="basics.html#basics" id="basics"><h1>Basics</h1></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="basics.html#ex-std-read-lines">Read lines of strings from a file</a> </td><td> <a href="https://doc.rust-lang.org/std"><img src="https://img.shields.io/badge/std-1.17.0-blue.svg" alt="std-badge" /></a> </td><td> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-byteorder-le">Read and write integers in little-endian byte order</a> </td><td> <a href="https://docs.rs/byteorder/"><img src="https://img.shields.io/crates/v/byteorder.svg?label=byteorder" alt="byteorder-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-rand-float">Generate random floating point numbers</a> </td><td> <a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> </td><td> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/rand--x.svg?style=social" alt="cat-science-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-rand-range">Generate random numbers within a range</a> </td><td> <a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> </td><td> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/rand--x.svg?style=social" alt="cat-science-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-rand-dist">Generate random numbers with normal distribution</a> </td><td> <a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> </td><td> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/rand--x.svg?style=social" alt="cat-science-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-rand-custom">Generate random values of a custom type</a> </td><td> <a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> </td><td> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/rand--x.svg?style=social" alt="cat-science-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-parse-subprocess-output">Run an external command and process stdout</a> </td><td> <a href="https://docs.rs/regex/"><img src="https://img.shields.io/crates/v/regex.svg?label=regex" alt="regex-badge" /></a> </td><td> <a href="https://crates.io/categories/os"><img src="https://img.shields.io/badge/OS--x.svg?style=social" alt="cat-os-badge" /></a> <a href="https://crates.io/categories/text-processing"><img src="https://img.shields.io/badge/text_processing--x.svg?style=social" alt="cat-text-processing-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-lazy-constant">Declare lazily evaluated constant</a> </td><td> <a href="https://docs.rs/lazy_static/"><img src="https://img.shields.io/crates/v/lazy_static.svg?label=lazy_static" alt="lazy_static-badge" /></a> </td><td> <a href="https://crates.io/categories/caching"><img src="https://img.shields.io/badge/caching--x.svg?style=social" alt="cat-caching-badge" /></a> <a href="https://crates.io/categories/rust-patterns"><img src="https://img.shields.io/badge/rust_patterns--x.svg?style=social" alt="cat-rust-patterns-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-global-mut-state">Maintain global mutable state</a> </td><td> <a href="https://docs.rs/lazy_static/"><img src="https://img.shields.io/crates/v/lazy_static.svg?label=lazy_static" alt="lazy_static-badge" /></a> </td><td> <a href="https://crates.io/categories/rust-patterns"><img src="https://img.shields.io/badge/rust_patterns--x.svg?style=social" alt="cat-rust-patterns-badge" /></a> </td></tr>
+</tbody></table>
+<p><a name="ex-std-read-lines"></a></p>
+<a class="header" href="basics.html#read-lines-of-strings-from-a-file" id="read-lines-of-strings-from-a-file"><h2>Read lines of strings from a file</h2></a>
+<p><a href="https://doc.rust-lang.org/std"><img src="https://img.shields.io/badge/std-1.17.0-blue.svg" alt="std-badge" /></a> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a></p>
+<p>Writes a three-line message to a file, then reads it back a line at a
+time with the <a href="https://doc.rust-lang.org/std/io/struct.Lines.html"><code>Lines</code></a> iterator created by
+<a href="https://doc.rust-lang.org/std/io/trait.BufRead.html#method.lines"><code>BufRead::lines</code></a>. <a href="https://doc.rust-lang.org/std/io/trait.BufRead.html"><code>BufRead</code></a> is a trait, and the most common way to
+get one is from a <a href="https://doc.rust-lang.org/std/io/struct.BufReader.html"><code>BufReader</code></a>, which is constructed from some type
+that implements <a href="https://doc.rust-lang.org/std/io/trait.Write.html"><code>Write</code></a>, here a <a href="https://doc.rust-lang.org/std/fs/struct.File.html"><code>File</code></a>. The <a href="https://doc.rust-lang.org/std/fs/struct.File.html"><code>File</code></a> is opened
+for writing with <a href="https://doc.rust-lang.org/std/fs/struct.File.html#method.create"><code>File::create</code></a>, and reading with <a href="https://doc.rust-lang.org/std/fs/struct.File.html#method.open"><code>File::open</code></a>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+#
+use std::fs::File;
+use std::io::{Write, BufReader, BufRead};
+#
+# error_chain! {
+#     foreign_links {
+#         Io(std::io::Error);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let path = &quot;lines.txt&quot;;
+
+    let mut output = File::create(path)?;
+    write!(output, &quot;Rust\n💖\nFun&quot;)?;
+
+    let input = File::open(path)?;
+    let buffered = BufReader::new(input);
+
+    for line in buffered.lines() {
+        println!(&quot;{}&quot;, line?);
+    }
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p><a name="ex-byteorder-le"></a></p>
+<a class="header" href="basics.html#read-and-write-integers-in-little-endian-byte-order" id="read-and-write-integers-in-little-endian-byte-order"><h2>Read and write integers in little-endian byte order</h2></a>
+<p><a href="https://docs.rs/byteorder/"><img src="https://img.shields.io/crates/v/byteorder.svg?label=byteorder" alt="byteorder-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a></p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+extern crate byteorder;
+
+use byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
+
+#[derive(Default, PartialEq, Debug)]
+struct Payload {
+    kind: u8,
+    value: u16,
+}
+#
+# error_chain! {
+#     foreign_links {
+#         Io(std::io::Error);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let original_payload = Payload::default();
+    let encoded_bytes = encode(&amp;original_payload)?;
+    let decoded_payload = decode(&amp;encoded_bytes)?;
+    assert_eq!(original_payload, decoded_payload);
+    Ok(())
+}
+
+fn encode(payload: &amp;Payload) -&gt; Result&lt;Vec&lt;u8&gt;&gt; {
+    let mut bytes = vec![];
+    bytes.write_u8(payload.kind)?;
+    bytes.write_u16::&lt;LittleEndian&gt;(payload.value)?;
+    Ok(bytes)
+}
+
+fn decode(mut bytes: &amp;[u8]) -&gt; Result&lt;Payload&gt; {
+    let payload = Payload {
+        kind: bytes.read_u8()?,
+        value: bytes.read_u16::&lt;LittleEndian&gt;()?,
+    };
+    Ok(payload)
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p><a name="ex-rand-float"></a></p>
+<a class="header" href="basics.html#generate-random-floating-point-numbers" id="generate-random-floating-point-numbers"><h2>Generate random floating point numbers</h2></a>
+<p><a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/rand--x.svg?style=social" alt="cat-science-badge" /></a></p>
+<pre><pre class="playpen"><code class="language-rust">extern crate rand;
+use rand::Rng;
+
+fn main() {
+    let mut rng = rand::thread_rng();
+    println!(&quot;Random f64: {}&quot;, rng.gen::&lt;f64&gt;());
+}
+</code></pre></pre>
+<p><a name="ex-rand-range"></a></p>
+<a class="header" href="basics.html#generate-random-numbers-within-a-range" id="generate-random-numbers-within-a-range"><h2>Generate random numbers within a range</h2></a>
+<p><a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/rand--x.svg?style=social" alt="cat-science-badge" /></a></p>
+<p>A random value within a range <code>[0, 10)</code> (not including <code>10</code>) is generated with <a href="https://doc.rust-lang.org/rand/rand/trait.Rng.html#method.gen_range"><code>Rng::gen_range</code></a>.</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate rand;
+
+use rand::Rng;
+
+fn main() {
+    let mut rng = rand::thread_rng();
+    println!(&quot;{}&quot;, rng.gen_range(0, 10));
+}
+</code></pre></pre>
+<p><a name="ex-rand-dist"></a></p>
+<a class="header" href="basics.html#generate-random-numbers-with-normal-distribution" id="generate-random-numbers-with-normal-distribution"><h2>Generate random numbers with normal distribution</h2></a>
+<p><a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/rand--x.svg?style=social" alt="cat-science-badge" /></a></p>
+<p><a href="https://doc.rust-lang.org/rand/rand/distributions/normal/struct.Normal.html"><code>Normal</code></a> distribution with mean <code>3</code> and standard deviation <code>5</code>
+is created. A random value is generated with <a href="https://doc.rust-lang.org/rand/rand/distributions/trait.IndependentSample.html#tymethod.ind_sample"><code>IndependentSample::ind_sample</code></a>.</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate rand;
+
+use rand::distributions::{Normal, IndependentSample};
+
+fn main() {
+    let normal = Normal::new(3.0, 5.0);
+    let mut rng = rand::thread_rng();
+    let v = normal.ind_sample(&amp;mut rng);
+    println!(&quot;{} is from a N(3, 25) distribution&quot;, v)
+}
+</code></pre></pre>
+<p><a name="ex-rand-custom"></a></p>
+<a class="header" href="basics.html#generate-random-values-of-a-custom-type" id="generate-random-values-of-a-custom-type"><h2>Generate random values of a custom type</h2></a>
+<p><a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/rand--x.svg?style=social" alt="cat-science-badge" /></a></p>
+<p>A tuple <code>(i32, bool, f64)</code> and variable of user defined type <code>Point</code>
+are randomly generated. In order to allow random generation of <code>Point</code>
+it needs to implement the <a href="https://doc.rust-lang.org/rand/rand/trait.Rand.html"><code>rand::Rand</code></a> trait.</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate rand;
+use rand::{Rng, Rand};
+
+#[derive(Debug)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Rand for Point {
+    fn rand&lt;R: Rng&gt;(rng: &amp;mut R) -&gt; Point {
+        let (rand_x, rand_y) = rng.gen();
+        Point {
+            x: rand_x,
+            y: rand_y,
+        }
+    }
+}
+
+fn main() {
+    let mut rng = rand::thread_rng();
+    let rand_tuple = rng.gen::&lt;(i32, bool, f64)&gt;();
+    let rand_point: Point = rng.gen();
+    println!(&quot;Random tuple: {:?}&quot;, rand_tuple);
+    println!(&quot;Random Point: {:?}&quot;, rand_point);
+}
+</code></pre></pre>
+<p><a name="ex-parse-subprocess-output"></a></p>
+<a class="header" href="basics.html#run-an-external-command-and-process-stdout" id="run-an-external-command-and-process-stdout"><h2>Run an external command and process stdout</h2></a>
+<p><a href="https://docs.rs/regex/"><img src="https://img.shields.io/crates/v/regex.svg?label=regex" alt="regex-badge" /></a> <a href="https://crates.io/categories/os"><img src="https://img.shields.io/badge/OS--x.svg?style=social" alt="cat-os-badge" /></a> <a href="https://crates.io/categories/text-processing"><img src="https://img.shields.io/badge/text_processing--x.svg?style=social" alt="cat-text-processing-badge" /></a></p>
+<p><code>git log --oneline</code> is run as an external <a href="https://doc.rust-lang.org/std/process/struct.Command.html"><code>Command</code></a> and its <a href="https://doc.rust-lang.org/std/process/struct.Output.html"><code>Output</code></a> is
+inspected using <a href="https://doc.rust-lang.org/regex/regex/struct.Regex.html"><code>Regex</code></a> to get the hash and message of the last 5 commits.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+extern crate regex;
+
+use std::process::Command;
+use regex::Regex;
+#
+# error_chain!{
+#     foreign_links {
+#         Io(std::io::Error);
+#         Regex(regex::Error);
+#         Utf8(std::string::FromUtf8Error);
+#     }
+# }
+
+#[derive(PartialEq, Default, Clone, Debug)]
+struct Commit {
+    hash: String,
+    message: String,
+}
+
+fn run() -&gt; Result&lt;()&gt; {
+    let output = Command::new(&quot;git&quot;).arg(&quot;log&quot;).arg(&quot;--oneline&quot;).output()?;
+
+    if !output.status.success() {
+        bail!(&quot;Command executed with failing error code&quot;);
+    }
+
+    let pattern = Regex::new(r&quot;(?x)
+                               ([0-9a-fA-F]+) # commit hash
+                               (.*)           # The commit message&quot;)?;
+
+    let stdout = String::from_utf8(output.stdout)?;
+    let commits = stdout
+        .lines()
+        .filter_map(|line| pattern.captures(line))
+        .map(|cap| {
+                 Commit {
+                     hash: cap[1].to_string(),
+                     message: cap[2].trim().to_string(),
+                 }
+             })
+        .take(5);
+
+    for commit in commits {
+        println!(&quot;{:?}&quot;, commit);
+    }
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p><a name="ex-lazy-constant"></a></p>
+<a class="header" href="basics.html#declare-lazily-evaluated-constant" id="declare-lazily-evaluated-constant"><h2>Declare lazily evaluated constant</h2></a>
+<p><a href="https://docs.rs/lazy_static/"><img src="https://img.shields.io/crates/v/lazy_static.svg?label=lazy_static" alt="lazy_static-badge" /></a> <a href="https://crates.io/categories/caching"><img src="https://img.shields.io/badge/caching--x.svg?style=social" alt="cat-caching-badge" /></a> <a href="https://crates.io/categories/rust-patterns"><img src="https://img.shields.io/badge/rust_patterns--x.svg?style=social" alt="cat-rust-patterns-badge" /></a></p>
+<p>Declares a lazily evaluated constant <a href="https://doc.rust-lang.org/std/collections/struct.HashMap.html"><code>HashMap</code></a>. The <a href="https://doc.rust-lang.org/std/collections/struct.HashMap.html"><code>HashMap</code></a> will
+be evaluated once and stored behind a global static reference.</p>
+<pre><pre class="playpen"><code class="language-rust">#[macro_use]
+extern crate lazy_static;
+
+use std::collections::HashMap;
+
+lazy_static! {
+    static ref PRIVILEGES: HashMap&lt;&amp;'static str, Vec&lt;&amp;'static str&gt;&gt; = {
+        let mut map = HashMap::new();
+        map.insert(&quot;James&quot;, vec![&quot;user&quot;, &quot;admin&quot;]);
+        map.insert(&quot;Jim&quot;, vec![&quot;user&quot;]);
+        map
+    };
+}
+
+fn show_access(name: &amp;str) {
+    let access = PRIVILEGES.get(name);
+    println!(&quot;{}: {:?}&quot;, name, access);
+}
+
+fn main() {
+    let access = PRIVILEGES.get(&quot;James&quot;);
+    println!(&quot;James: {:?}&quot;, access);
+
+    show_access(&quot;Jim&quot;);
+}
+</code></pre></pre>
+<p><a name="ex-global-mut-state"></a></p>
+<a class="header" href="basics.html#maintain-global-mutable-state" id="maintain-global-mutable-state"><h2>Maintain global mutable state</h2></a>
+<p><a href="https://docs.rs/lazy_static/"><img src="https://img.shields.io/crates/v/lazy_static.svg?label=lazy_static" alt="lazy_static-badge" /></a> <a href="https://crates.io/categories/rust-patterns"><img src="https://img.shields.io/badge/rust_patterns--x.svg?style=social" alt="cat-rust-patterns-badge" /></a></p>
+<p>Declares some global state using <a href="https://docs.rs/lazy_static/">lazy_static</a>. Since <a href="https://docs.rs/lazy_static/">lazy_static</a>
+creates a globally available <code>static ref</code> we also need to wrap our state
+in a <a href="https://doc.rust-lang.org/std/sync/struct.Mutex.html"><code>Mutex</code></a> to allow mutation (also see <a href="https://doc.rust-lang.org/std/sync/struct.RwLock.html"><code>RwLock</code></a>). The <a href="https://doc.rust-lang.org/std/sync/struct.Mutex.html"><code>Mutex</code></a> ensures
+the state cannot be simultaneously accessed by multiple threads, preventing
+race conditions. A <a href="https://doc.rust-lang.org/std/sync/struct.MutexGuard.html"><code>MutexGuard</code></a> must be acquired to read or mutate the
+value stored in a <a href="https://doc.rust-lang.org/std/sync/struct.Mutex.html"><code>Mutex</code></a>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+#[macro_use]
+extern crate lazy_static;
+
+use std::sync::Mutex;
+#
+# error_chain!{ }
+
+lazy_static! {
+    static ref FRUIT: Mutex&lt;Vec&lt;String&gt;&gt; = Mutex::new(Vec::new());
+}
+
+fn insert(fruit: &amp;str) -&gt; Result&lt;()&gt; {
+    // acquire exclusive access
+    let mut db = FRUIT.lock().map_err(|_| &quot;Failed to acquire MutexGuard&quot;)?;
+    db.push(fruit.to_string());
+    Ok(())
+    // release exclusive access
+}
+
+fn run() -&gt; Result&lt;()&gt; {
+    insert(&quot;apple&quot;)?;
+    insert(&quot;orange&quot;)?;
+    insert(&quot;peach&quot;)?;
+    {
+        // acquire access
+        let db = FRUIT.lock().map_err(|_| &quot;Failed to acquire MutexGuard&quot;)?;
+
+        for (i, item) in db.iter().enumerate() {
+            println!(&quot;{}: {}&quot;, i, item);
+        }
+        // release access
+    }
+    insert(&quot;grape&quot;)?;
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<!-- Categories -->
+<!-- Crates -->
+<!-- API links -->
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="about.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="encoding.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="about.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="encoding.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+
+            // START - Rust Cookbook customization
+            $("#edit-button").click(function(){
+                var editWindow = window.open("https://github.com/brson/rust-cookbook/edit/master/src/basics.md");
+            });
+            // END - Rust Cookbook customization
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Encoding - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="intro.html">Table of Contents</a></li><li class="affix"><a href="about.html">About</a></li><li><a href="basics.html"><strong>1.</strong> Basics</a></li><li><a href="encoding.html" class="active"><strong>2.</strong> Encoding</a></li><li><a href="concurrency.html"><strong>3.</strong> Concurrency</a></li><li><a href="net.html"><strong>4.</strong> Networking</a></li><li><a href="app.html"><strong>5.</strong> Application development</a></li><li><a href="logging.html"><strong>6.</strong> Logging</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <!-- START - Rust Cookbook customization -->
+                        <i id="edit-button" class="fa fa-edit">Edit</i>
+                        <!-- END - Rust Cookbook customization -->
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="encoding.html#encoding" id="encoding"><h1>Encoding</h1></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="encoding.html#ex-json-value">Serialize and deserialize unstructured JSON</a> </td><td> <a href="https://docs.serde.rs/serde_json/"><img src="https://img.shields.io/crates/v/serde_json.svg?label=serde_json" alt="serde-json-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="encoding.html#ex-toml-config">Deserialize a TOML configuration file</a> </td><td> <a href="https://docs.rs/toml/"><img src="https://img.shields.io/crates/v/toml.svg?label=toml" alt="toml-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="encoding.html#ex-percent-encode">Percent-encode a string</a> </td><td> <a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="encoding.html#ex-urlencoded">Encode a string as application/x-www-form-urlencoded</a> </td><td> <a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="encoding.html#ex-hex-encode-decode">Encode and decode hex</a> </td><td> <a href="https://github.com/ia0/data-encoding"><img src="https://img.shields.io/crates/v/data-encoding.svg?label=data-encoding" alt="data-encoding-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="encoding.html#ex-base64">Encode and decode base64</a> </td><td> <a href="https://docs.rs/base64/"><img src="https://img.shields.io/crates/v/base64.svg?label=base64" alt="base64-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+</tbody></table>
+<p><a name="ex-json-value"></a></p>
+<a class="header" href="encoding.html#serialize-and-deserialize-unstructured-json" id="serialize-and-deserialize-unstructured-json"><h2>Serialize and deserialize unstructured JSON</h2></a>
+<p><a href="https://docs.serde.rs/serde_json/"><img src="https://img.shields.io/crates/v/serde_json.svg?label=serde_json" alt="serde-json-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a></p>
+<p>The <a href="https://docs.serde.rs/serde_json/"><code>serde_json</code></a> crate provides a <a href="https://docs.serde.rs/serde_json/fn.from_str.html"><code>from_str</code></a> function to parse a <code>&amp;str</code> of
+JSON into a type of the caller's choice.</p>
+<p>Unstructured JSON can be parsed into a universal <a href="https://docs.serde.rs/serde_json/enum.Value.html"><code>serde_json::Value</code></a> type that
+is able to represent any valid JSON data.</p>
+<p>The example below shows a <code>&amp;str</code> of JSON being parsed and then compared to what
+we expect the parsed value to be. The expected value is declared using the
+<a href="https://docs.serde.rs/serde_json/macro.json.html"><code>json!</code></a> macro.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+#[macro_use]
+extern crate serde_json;
+
+use serde_json::Value;
+#
+# error_chain! {
+#     foreign_links {
+#         Json(serde_json::Error);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let j = r#&quot;{
+                 &quot;userid&quot;: 103609,
+                 &quot;verified&quot;: true,
+                 &quot;access_privileges&quot;: [
+                   &quot;user&quot;,
+                   &quot;admin&quot;
+                 ]
+               }&quot;#;
+
+    let parsed: Value = serde_json::from_str(j)?;
+
+    let expected = json!({
+        &quot;userid&quot;: 103609,
+        &quot;verified&quot;: true,
+        &quot;access_privileges&quot;: [
+            &quot;user&quot;,
+            &quot;admin&quot;
+        ]
+    });
+
+    assert_eq!(parsed, expected);
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p><a name="ex-toml-config"></a></p>
+<a class="header" href="encoding.html#deserialize-a-toml-configuration-file" id="deserialize-a-toml-configuration-file"><h2>Deserialize a TOML configuration file</h2></a>
+<p><a href="https://docs.rs/toml/"><img src="https://img.shields.io/crates/v/toml.svg?label=toml" alt="toml-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a></p>
+<p>Parse some TOML into a universal <code>toml::Value</code> that is able to represent any
+valid TOML data.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+extern crate toml;
+
+use toml::Value;
+#
+# error_chain! {
+#     foreign_links {
+#         Toml(toml::de::Error);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let toml_content = r#&quot;
+          [package]
+          name = &quot;your_package&quot;
+          version = &quot;0.1.0&quot;
+          authors = [&quot;You! &lt;you@example.org&gt;&quot;]
+
+          [dependencies]
+          serde = &quot;1.0&quot;
+          &quot;#;
+
+    let package_info: Value = toml::from_str(toml_content)?;
+
+    assert_eq!(package_info[&quot;dependencies&quot;][&quot;serde&quot;].as_str(), Some(&quot;1.0&quot;));
+    assert_eq!(package_info[&quot;package&quot;][&quot;name&quot;].as_str(),
+               Some(&quot;your_package&quot;));
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p>Parse TOML into your own structs using Serde:</p>
+<p><a href="https://docs.serde.rs/serde_json/"><img src="https://img.shields.io/crates/v/serde_json.svg?label=serde_json" alt="serde-json-badge" /></a> <a href="https://docs.rs/toml/"><img src="https://img.shields.io/crates/v/toml.svg?label=toml" alt="toml-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a></p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
+extern crate toml;
+
+use std::collections::HashMap;
+
+#[derive(Deserialize)]
+struct Config {
+    package: Package,
+    dependencies: HashMap&lt;String, String&gt;,
+}
+
+#[derive(Deserialize)]
+struct Package {
+    name: String,
+    version: String,
+    authors: Vec&lt;String&gt;,
+}
+#
+# error_chain! {
+#     foreign_links {
+#         Toml(toml::de::Error);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let toml_content = r#&quot;
+          [package]
+          name = &quot;your_package&quot;
+          version = &quot;0.1.0&quot;
+          authors = [&quot;You! &lt;you@example.org&gt;&quot;]
+
+          [dependencies]
+          serde = &quot;1.0&quot;
+          &quot;#;
+
+    let package_info: Config = toml::from_str(toml_content)?;
+
+    assert_eq!(package_info.package.name, &quot;your_package&quot;);
+    assert_eq!(package_info.package.version, &quot;0.1.0&quot;);
+    assert_eq!(package_info.package.authors, vec![&quot;You! &lt;you@example.org&gt;&quot;]);
+    assert_eq!(package_info.dependencies[&quot;serde&quot;], &quot;1.0&quot;);
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p><a name="ex-percent-encode"></a></p>
+<a class="header" href="encoding.html#percent-encode-a-string" id="percent-encode-a-string"><h2>Percent-encode a string</h2></a>
+<p><a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a></p>
+<p>Encode an input string with <a href="https://en.wikipedia.org/wiki/Percent-encoding">percent-encoding</a> using the <a href="https://docs.rs/url/1.*/url/percent_encoding/fn.utf8_percent_encode.html"><code>utf8_percent_encode</code></a>
+function from the <code>url</code> crate. Then decode using the <a href="https://docs.rs/url/1.*/url/percent_encoding/fn.percent_decode.html"><code>percent_decode</code></a>
+function.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+extern crate url;
+
+use url::percent_encoding::{utf8_percent_encode, percent_decode, DEFAULT_ENCODE_SET};
+#
+# error_chain! {
+#     foreign_links {
+#         Utf8(std::str::Utf8Error);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let input = &quot;confident, productive systems programming&quot;;
+
+    let iter = utf8_percent_encode(input, DEFAULT_ENCODE_SET);
+    let encoded: String = iter.collect();
+    assert_eq!(encoded, &quot;confident,%20productive%20systems%20programming&quot;);
+
+    let iter = percent_decode(encoded.as_bytes());
+    let decoded = iter.decode_utf8()?;
+    assert_eq!(decoded, &quot;confident, productive systems programming&quot;);
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p>The encode set defines which bytes (in addition to non-ASCII and controls) need
+to be percent-encoded. The choice of this set depends on context. For example,
+<code>?</code> needs to be encoded in a URL path but not in a query string.</p>
+<p>The return value of encoding is an iterator of <code>&amp;str</code> slices which can be
+collected into a <code>String</code>.</p>
+<p><a name="ex-urlencoded"></a></p>
+<a class="header" href="encoding.html#encode-a-string-as-applicationx-www-form-urlencoded" id="encode-a-string-as-applicationx-www-form-urlencoded"><h2>Encode a string as application/x-www-form-urlencoded</h2></a>
+<p><a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a></p>
+<p>A string is encoded into <a href="https://url.spec.whatwg.org/#application/x-www-form-urlencoded">application/x-www-form-urlencoded</a> syntax
+using the <a href="https://docs.rs/url/1.4.0/url/form_urlencoded/fn.byte_serialize.html"><code>form_urlencoded::byte_serialize</code></a> and subsequently
+decoded with <a href="https://docs.rs/url/*/url/form_urlencoded/fn.parse.html"><code>form_urlencoded::parse</code></a>. Both functions return iterators
+that can be collected into a <code>String</code>.</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate url;
+use url::form_urlencoded::{byte_serialize, parse};
+
+fn main() {
+    let urlencoded: String = byte_serialize(&quot;What is ❤?&quot;.as_bytes()).collect();
+    assert_eq!(urlencoded, &quot;What+is+%E2%9D%A4%3F&quot;);
+    println!(&quot;urlencoded:'{}'&quot;, urlencoded);
+
+    let decoded: String = parse(urlencoded.as_bytes())
+        .map(|(key, val)| [key, val].concat())
+        .collect();
+    assert_eq!(decoded, &quot;What is ❤?&quot;);
+    println!(&quot;decoded:'{}'&quot;, decoded);
+}
+</code></pre></pre>
+<p><a name="ex-hex-encode-decode"></a></p>
+<a class="header" href="encoding.html#encode-and-decode-hex" id="encode-and-decode-hex"><h2>Encode and decode hex</h2></a>
+<p><a href="https://github.com/ia0/data-encoding"><img src="https://img.shields.io/crates/v/data-encoding.svg?label=data-encoding" alt="data-encoding-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a></p>
+<p>The <a href="https://github.com/ia0/data-encoding"><code>data_encoding</code></a> crate provides a <code>HEXUPPER::encode</code> method which
+takes a <code>&amp;[u8]</code> and returns a <code>String</code> containing the hexadecimal
+representation of the data.</p>
+<p>Similarly, a <code>HEXUPPER::decode</code> method is provided which takes a <code>&amp;[u8]</code> and
+returns a <code>Vec&lt;u8&gt;</code> if the input data is successfully decoded.</p>
+<p>The example below shows a <code>&amp;[u8]</code> of data being converted to its hexadecimal
+representation and then being compared to its expected value. The returned
+hex <code>String</code> is then converted back to its original representation and is
+compared to the original value provided.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+extern crate data_encoding;
+
+use data_encoding::{HEXUPPER, DecodeError};
+#
+# error_chain! {
+#     foreign_links {
+#         Decode(DecodeError);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let original = b&quot;The quick brown fox jumps over the lazy dog.&quot;;
+    let expected = &quot;54686520717569636B2062726F776E20666F78206A756D7073206F76\
+        657220746865206C617A7920646F672E&quot;;
+
+    let encoded = HEXUPPER.encode(original);
+    assert_eq!(encoded, expected);
+
+    let decoded = HEXUPPER.decode(&amp;encoded.into_bytes())?;
+    assert_eq!(&amp;decoded[..], &amp;original[..]);
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p><a name="ex-base64"></a></p>
+<a class="header" href="encoding.html#encode-and-decode-base64" id="encode-and-decode-base64"><h2>Encode and decode base64</h2></a>
+<p><a href="https://docs.rs/base64/"><img src="https://img.shields.io/crates/v/base64.svg?label=base64" alt="base64-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a></p>
+<p>Byte slice is encoded into <code>base64</code> String with help of <a href="https://docs.rs/base64/*/base64/fn.encode.html"><code>encode</code></a>
+and subsequently decoded with <a href="https://docs.rs/base64/*/base64/fn.decode.html"><code>decode</code></a>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+extern crate base64;
+
+use std::str;
+use base64::{encode, decode};
+#
+# error_chain! {
+#     foreign_links {
+#         Base64(base64::DecodeError);
+#         Utf8Error(str::Utf8Error);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let hello = b&quot;hello rustaceans&quot;;
+    let encoded = encode(hello);
+    let decoded = decode(&amp;encoded)?;
+
+    println!(&quot;origin: {}&quot;, str::from_utf8(hello)?);
+    println!(&quot;base64 encoded: {}&quot;, encoded);
+    println!(&quot;back to origin: {}&quot;, str::from_utf8(&amp;decoded)?);
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<!-- Categories -->
+<!-- Crates -->
+<!-- Reference -->
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="basics.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="concurrency.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="basics.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="concurrency.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+
+            // START - Rust Cookbook customization
+            $("#edit-button").click(function(){
+                var editWindow = window.open("https://github.com/brson/rust-cookbook/edit/master/src/encoding.md");
+            });
+            // END - Rust Cookbook customization
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

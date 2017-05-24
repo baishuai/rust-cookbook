@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Table of Contents - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="intro.html" class="active">Table of Contents</a></li><li class="affix"><a href="about.html">About</a></li><li><a href="basics.html"><strong>1.</strong> Basics</a></li><li><a href="encoding.html"><strong>2.</strong> Encoding</a></li><li><a href="concurrency.html"><strong>3.</strong> Concurrency</a></li><li><a href="net.html"><strong>4.</strong> Networking</a></li><li><a href="app.html"><strong>5.</strong> Application development</a></li><li><a href="logging.html"><strong>6.</strong> Logging</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <!-- START - Rust Cookbook customization -->
+                        <i id="edit-button" class="fa fa-edit">Edit</i>
+                        <!-- END - Rust Cookbook customization -->
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="intro.html#cookin-with-rust" id="cookin-with-rust"><h1>Cookin' with Rust</h1></a>
+<p>This <em>Rust Cookbook</em> is a collection of
+simple examples that demonstrate good practices to accomplish common
+programming tasks, using the crates of the Rust ecosystem.</p>
+<p><a href="about.html">Read more about <em>Rust Cookbook</em></a>, including tips for
+how to read the book, how to use the examples, and notes on conventions.</p>
+<a class="header" href="intro.html#contributing" id="contributing"><h2>Contributing</h2></a>
+<p>This project is intended to be easy for new Rust programmers to
+contribute to, and an easy to way get involved with the Rust
+community. It needs and welcomes help. For details see
+<a href="https://github.com/brson/rust-cookbook/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+<a class="header" href="intro.html#a-hrefbasicshtmlbasicsa" id="a-hrefbasicshtmlbasicsa"><h2><a href="basics.html">Basics</a></h2></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="basics.html#ex-std-read-lines">Read lines of strings from a file</a> </td><td> <a href="https://doc.rust-lang.org/std"><img src="https://img.shields.io/badge/std-1.17.0-blue.svg" alt="std-badge" /></a> </td><td> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-byteorder-le">Read and write integers in little-endian byte order</a> </td><td> <a href="https://docs.rs/byteorder/"><img src="https://img.shields.io/crates/v/byteorder.svg?label=byteorder" alt="byteorder-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-rand-float">Generate random floating point numbers</a> </td><td> <a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> </td><td> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/science--x.svg?style=social" alt="cat-science-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-rand-range">Generate random numbers within a range</a> </td><td> <a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> </td><td> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/science--x.svg?style=social" alt="cat-science-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-rand-dist">Generate random numbers with normal distribution</a> </td><td> <a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> </td><td> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/science--x.svg?style=social" alt="cat-science-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-rand-custom">Generate random values of a custom type</a> </td><td> <a href="https://docs.rs/rand/"><img src="https://img.shields.io/crates/v/rand.svg?label=rand" alt="rand-badge" /></a> </td><td> <a href="https://crates.io/categories/science"><img src="https://img.shields.io/badge/science--x.svg?style=social" alt="cat-science-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-parse-subprocess-output">Run an external command and process stdout</a> </td><td> <a href="https://docs.rs/regex/"><img src="https://img.shields.io/crates/v/regex.svg?label=regex" alt="regex-badge" /></a> </td><td> <a href="https://crates.io/categories/os"><img src="https://img.shields.io/badge/OS--x.svg?style=social" alt="cat-os-badge" /></a> <a href="https://crates.io/categories/text-processing"><img src="https://img.shields.io/badge/text_processing--x.svg?style=social" alt="cat-text-processing-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-lazy-constant">Declare lazily evaluated constant</a> </td><td> <a href="https://docs.rs/lazy_static/"><img src="https://img.shields.io/crates/v/lazy_static.svg?label=lazy_static" alt="lazy_static-badge" /></a> </td><td> <a href="https://crates.io/categories/caching"><img src="https://img.shields.io/badge/caching--x.svg?style=social" alt="cat-caching-badge" /></a> <a href="https://crates.io/categories/rust-patterns"><img src="https://img.shields.io/badge/rust_patterns--x.svg?style=social" alt="cat-rust-patterns-badge" /></a> </td></tr>
+<tr><td> <a href="basics.html#ex-global-mut-state">Maintain global mutable state</a> </td><td> <a href="https://docs.rs/lazy_static/"><img src="https://img.shields.io/crates/v/lazy_static.svg?label=lazy_static" alt="lazy_static-badge" /></a> </td><td> <a href="https://crates.io/categories/rust-patterns"><img src="https://img.shields.io/badge/rust_patterns--x.svg?style=social" alt="cat-rust-patterns-badge" /></a> </td></tr>
+</tbody></table>
+<a class="header" href="intro.html#a-hrefencodinghtmlencodinga" id="a-hrefencodinghtmlencodinga"><h2><a href="encoding.html">Encoding</a></h2></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="encoding.html#ex-json-value">Serialize and deserialize unstructured JSON</a> </td><td> <a href="https://docs.serde.rs/serde_json/"><img src="https://img.shields.io/crates/v/serde_json.svg?label=serde_json" alt="serde-json-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="encoding.html#ex-toml-config">Deserialize a TOML configuration file</a> </td><td> <a href="https://docs.rs/toml/"><img src="https://img.shields.io/crates/v/toml.svg?label=toml" alt="toml-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="encoding.html#ex-percent-encode">Percent-encode a string</a> </td><td> <a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="encoding.html#ex-urlencoded">Encode a string as application/x-www-form-urlencoded</a> </td><td> <a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="encoding.html#ex-hex-encode-decode">Encode and decode hex</a> </td><td> <a href="https://github.com/ia0/data-encoding"><img src="https://img.shields.io/crates/v/data-encoding.svg?label=data-encoding" alt="data-encoding-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="encoding.html#ex-base64">Encode and decode base64</a> </td><td> <a href="https://docs.rs/base64/"><img src="https://img.shields.io/crates/v/base64.svg?label=base64" alt="base64-badge" /></a> </td><td> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+</tbody></table>
+<a class="header" href="intro.html#a-hrefconcurrencyhtmlconcurrencya" id="a-hrefconcurrencyhtmlconcurrencya"><h2><a href="concurrency.html">Concurrency</a></h2></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="concurrency.html#ex-rayon-iter-mut">Mutate the elements of an array in parallel</a> </td><td> <a href="https://docs.rs/rayon/"><img src="https://img.shields.io/crates/v/rayon.svg?label=rayon" alt="rayon-badge" /></a> </td><td> <a href="https://crates.io/categories/concurrency"><img src="https://img.shields.io/badge/concurrency--x.svg?style=social" alt="cat-concurrency-badge" /></a> </td></tr>
+<tr><td> <a href="concurrency.html#ex-crossbeam-spawn">Spawn a short-lived thread</a> </td><td> <a href="https://docs.rs/crossbeam/"><img src="https://img.shields.io/crates/v/crossbeam.svg?label=crossbeam" alt="crossbeam-badge" /></a> </td><td> <a href="https://crates.io/categories/concurrency"><img src="https://img.shields.io/badge/concurrency--x.svg?style=social" alt="cat-concurrency-badge" /></a> </td></tr>
+</tbody></table>
+<a class="header" href="intro.html#a-hrefnethtmlnetworkinga" id="a-hrefnethtmlnetworkinga"><h2><a href="net.html">Networking</a></h2></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="net.html#ex-url-parse">Parse a URL from a string to a <code>Url</code> type</a> </td><td> <a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-url-base">Create a base URL by removing path segments</a> </td><td> <a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-url-new-from-base">Create new URLs from a base URL</a> </td><td> <a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-url-origin">Extract the URL origin (scheme / host / port)</a> </td><td> <a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-url-rm-frag">Remove fragment identifiers and query pairs from a URL</a> </td><td> <a href="https://docs.rs/url/"><img src="https://img.shields.io/crates/v/url.svg?label=url" alt="url-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-url-basic">Make a HTTP GET request after parsing a URL</a> </td><td> <a href="https://docs.rs/reqwest/"><img src="https://img.shields.io/crates/v/reqwest.svg?label=reqwest" alt="reqwest-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-url-download">Download a file to a temporary directory</a> </td><td> <a href="https://docs.rs/reqwest/"><img src="https://img.shields.io/crates/v/reqwest.svg?label=reqwest" alt="reqwest-badge" /></a> <a href="https://docs.rs/tempdir/"><img src="https://img.shields.io/crates/v/tempdir.svg?label=tempdir" alt="tempdir-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-rest-get">Query the GitHub API</a> </td><td> <a href="https://docs.rs/reqwest/"><img src="https://img.shields.io/crates/v/reqwest.svg?label=reqwest" alt="reqwest-badge" /></a> <a href="https://docs.rs/serde/"><img src="https://img.shields.io/crates/v/serde.svg?label=serde" alt="serde-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-paginated-api">Consume a paginated RESTful API</a> </td><td> <a href="https://docs.rs/reqwest/"><img src="https://img.shields.io/crates/v/reqwest.svg?label=reqwest" alt="reqwest-badge" /></a> <a href="https://docs.rs/serde/"><img src="https://img.shields.io/crates/v/serde.svg?label=serde" alt="serde-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-rest-head">Check if an API resource exists</a> </td><td> <a href="https://docs.rs/reqwest/"><img src="https://img.shields.io/crates/v/reqwest.svg?label=reqwest" alt="reqwest-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-rest-post">Create and delete Gist with GitHub API</a> </td><td> <a href="https://docs.rs/reqwest/"><img src="https://img.shields.io/crates/v/reqwest.svg?label=reqwest" alt="reqwest-badge" /></a> <a href="https://docs.rs/serde/"><img src="https://img.shields.io/crates/v/serde.svg?label=serde" alt="serde-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> <a href="https://crates.io/categories/encoding"><img src="https://img.shields.io/badge/encoding--x.svg?style=social" alt="cat-encoding-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-file-post">POST a file to paste-rs</a> </td><td> <a href="https://docs.rs/reqwest/"><img src="https://img.shields.io/crates/v/reqwest.svg?label=reqwest" alt="reqwest-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> </td></tr>
+<tr><td> <a href="net.html#ex-random-port-tcp">Listen on unused port TCP/IP</a> </td><td> <a href="https://doc.rust-lang.org/std"><img src="https://img.shields.io/badge/std-1.17.0-blue.svg" alt="std-badge" /></a> </td><td> <a href="https://crates.io/categories/network-programming"><img src="https://img.shields.io/badge/net--x.svg?style=social" alt="cat-net-badge" /></a> </td></tr>
+</tbody></table>
+<a class="header" href="intro.html#a-hrefapphtmlapplication-developmenta" id="a-hrefapphtmlapplication-developmenta"><h2><a href="app.html">Application development</a></h2></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="app.html#ex-clap-basic">Parse command line arguments</a> </td><td> <a href="https://docs.rs/clap/"><img src="https://img.shields.io/crates/v/clap.svg?label=clap" alt="clap-badge" /></a> </td><td> <a href="https://crates.io/categories/command-line-interface"><img src="https://img.shields.io/badge/command_line--x.svg?style=social" alt="cat-command-line-badge" /></a> </td></tr>
+<tr><td> <a href="app.html#ex-tar-temp">Unzip a tarball to a temporary directory</a> </td><td> <a href="https://docs.rs/flate2/"><img src="https://img.shields.io/crates/v/flate2.svg?label=flate2" alt="flate2-badge" /></a> <a href="https://docs.rs/tar/"><img src="https://img.shields.io/crates/v/tar.svg?label=tar" alt="tar-badge" /></a> <a href="https://docs.rs/tempdir/"><img src="https://img.shields.io/crates/v/tempdir.svg?label=tempdir" alt="tempdir-badge" /></a> </td><td> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a> <a href="https://crates.io/categories/compression"><img src="https://img.shields.io/badge/compression--x.svg?style=social" alt="cat-compression-badge" /></a> </td></tr>
+<tr><td> <a href="app.html#ex-dedup-filenames">Recursively find duplicate file names</a> </td><td> <a href="https://docs.rs/walkdir/"><img src="https://img.shields.io/crates/v/walkdir.svg?label=walkdir" alt="walkdir-badge" /></a> </td><td> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a> </td></tr>
+<tr><td> <a href="app.html#ex-file-predicate">Recursively find all files with given predicate</a> </td><td> <a href="https://docs.rs/walkdir/"><img src="https://img.shields.io/crates/v/walkdir.svg?label=walkdir" alt="walkdir-badge" /></a> </td><td> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a> </td></tr>
+</tbody></table>
+<a class="header" href="intro.html#a-hreflogginghtmllogginga" id="a-hreflogginghtmllogginga"><h2><a href="logging.html">Logging</a></h2></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="logging.html#ex-log-debug">Log a debug message to the console</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-error">Log an error message to the console</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-mod">Enable log levels per module</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-custom-logger">Log messages with a custom logger</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-timestamp">Include timestamp in log messages</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> <a href="https://docs.rs/chrono/"><img src="https://img.shields.io/crates/v/chrono.svg?label=chrono" alt="chrono-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-syslog">Log to the Unix syslog</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/syslog/"><img src="https://img.shields.io/crates/v/syslog.svg?label=syslog" alt="syslog-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-custom">Log messages to a custom location</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+</tbody></table>
+<!--
+<p>Links, in a few categories. Follow the existing structure.</p>
+<p>Individual pages contain a subset of these exact links, depending on
+the crates and categories of their examples.</p>
+<p>Keep lines sorted.</p>
+<p>--&gt;</p>
+<!-- Categories -->
+<!-- Crates -->
+<!-- Examples -->
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+
+                
+                    <a href="about.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+
+            
+                <a href="about.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+
+            // START - Rust Cookbook customization
+            $("#edit-button").click(function(){
+                var editWindow = window.open("https://github.com/brson/rust-cookbook/edit/master/src/intro.md");
+            });
+            // END - Rust Cookbook customization
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

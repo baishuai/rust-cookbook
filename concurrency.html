@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Concurrency - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="intro.html">Table of Contents</a></li><li class="affix"><a href="about.html">About</a></li><li><a href="basics.html"><strong>1.</strong> Basics</a></li><li><a href="encoding.html"><strong>2.</strong> Encoding</a></li><li><a href="concurrency.html" class="active"><strong>3.</strong> Concurrency</a></li><li><a href="net.html"><strong>4.</strong> Networking</a></li><li><a href="app.html"><strong>5.</strong> Application development</a></li><li><a href="logging.html"><strong>6.</strong> Logging</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <!-- START - Rust Cookbook customization -->
+                        <i id="edit-button" class="fa fa-edit">Edit</i>
+                        <!-- END - Rust Cookbook customization -->
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="concurrency.html#concurrency" id="concurrency"><h1>Concurrency</h1></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="concurrency.html#ex-rayon-iter-mut">Mutate the elements of an array in parallel</a> </td><td> <a href="https://docs.rs/rayon/"><img src="https://img.shields.io/crates/v/rayon.svg?label=rayon" alt="rayon-badge" /></a> </td><td> <a href="https://crates.io/categories/concurrency"><img src="https://img.shields.io/badge/concurrency--x.svg?style=social" alt="cat-concurrency-badge" /></a> </td></tr>
+<tr><td> <a href="concurrency.html#ex-crossbeam-spawn">Spawn a short-lived thread</a> </td><td> <a href="https://docs.rs/crossbeam/"><img src="https://img.shields.io/crates/v/crossbeam.svg?label=crossbeam" alt="crossbeam-badge" /></a> </td><td> <a href="https://crates.io/categories/concurrency"><img src="https://img.shields.io/badge/concurrency--x.svg?style=social" alt="cat-concurrency-badge" /></a> </td></tr>
+</tbody></table>
+<p><a name="ex-rayon-iter-mut"></a></p>
+<a class="header" href="concurrency.html#mutate-the-elements-of-an-array-in-parallel" id="mutate-the-elements-of-an-array-in-parallel"><h2>Mutate the elements of an array in parallel</h2></a>
+<p><a href="https://docs.rs/rayon/"><img src="https://img.shields.io/crates/v/rayon.svg?label=rayon" alt="rayon-badge" /></a> <a href="https://crates.io/categories/concurrency"><img src="https://img.shields.io/badge/concurrency--x.svg?style=social" alt="cat-concurrency-badge" /></a></p>
+<pre><pre class="playpen"><code class="language-rust">extern crate rayon;
+
+use rayon::prelude::*;
+
+fn main() {
+    let mut arr = [0, 7, 9, 11];
+
+    arr.par_iter_mut().for_each(|p| *p -= 1);
+
+    println!(&quot;{:?}&quot;, arr);
+}
+</code></pre></pre>
+<p>The example uses the Rayon crate, which is a data parallelism library for Rust.
+Rayon provides the <code>par_iter_mut()</code> method for any parallel iterable data type.
+It lets us write iterator-like chains that execute in parallel.</p>
+<p><a name="ex-crossbeam-spawn"></a></p>
+<a class="header" href="concurrency.html#spawn-a-short-lived-thread" id="spawn-a-short-lived-thread"><h2>Spawn a short-lived thread</h2></a>
+<p><a href="https://docs.rs/crossbeam/"><img src="https://img.shields.io/crates/v/crossbeam.svg?label=crossbeam" alt="crossbeam-badge" /></a> <a href="https://crates.io/categories/concurrency"><img src="https://img.shields.io/badge/concurrency--x.svg?style=social" alt="cat-concurrency-badge" /></a></p>
+<pre><pre class="playpen"><code class="language-rust">extern crate crossbeam;
+
+use std::cmp;
+
+fn main() {
+    let arr = &amp;[-4, 1, 10, 25];
+    let max = find_max(arr, 0, arr.len());
+    assert_eq!(25, max);
+}
+
+fn find_max(arr: &amp;[i32], start: usize, end: usize) -&gt; i32 {
+    // Perform sequential computation if there are only a few elements.
+    const THRESHOLD: usize = 2;
+    if end - start &lt;= THRESHOLD {
+        return *arr.iter().max().unwrap();
+    }
+
+    let mid = start + (end - start) / 2;
+    crossbeam::scope(|scope| {
+        let left = scope.spawn(|| find_max(arr, start, mid));
+        let right = scope.spawn(|| find_max(arr, mid, end));
+
+        cmp::max(left.join(), right.join())
+    })
+}
+</code></pre></pre>
+<p>The example uses <code>crossbeam</code> crate, which provides data structures and functions
+for concurrent and parallel programming. <a href="https://docs.rs/crossbeam/0.*/crossbeam/struct.Scope.html#method.spawn"><code>Scope::spawn</code></a> spawns a new scoped thread that is guaranteed
+to terminate before returning from the closure that passed into <a href="https://docs.rs/crossbeam/0.*/crossbeam/fn.scope.html"><code>crossbeam::scope</code></a> function, meaning that
+you can reference data from the calling function.</p>
+<!-- Categories -->
+<!-- Crates -->
+<!-- Reference -->
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="encoding.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="net.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="encoding.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="net.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+
+            // START - Rust Cookbook customization
+            $("#edit-button").click(function(){
+                var editWindow = window.open("https://github.com/brson/rust-cookbook/edit/master/src/concurrency.md");
+            });
+            // END - Rust Cookbook customization
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

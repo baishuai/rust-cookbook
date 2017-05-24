@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>About - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="intro.html">Table of Contents</a></li><li class="affix"><a href="about.html" class="active">About</a></li><li><a href="basics.html"><strong>1.</strong> Basics</a></li><li><a href="encoding.html"><strong>2.</strong> Encoding</a></li><li><a href="concurrency.html"><strong>3.</strong> Concurrency</a></li><li><a href="net.html"><strong>4.</strong> Networking</a></li><li><a href="app.html"><strong>5.</strong> Application development</a></li><li><a href="logging.html"><strong>6.</strong> Logging</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <!-- START - Rust Cookbook customization -->
+                        <i id="edit-button" class="fa fa-edit">Edit</i>
+                        <!-- END - Rust Cookbook customization -->
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="about.html#about-cookin-with-rust" id="about-cookin-with-rust"><h1>About &quot;Cookin' with Rust&quot;</h1></a>
+<a class="header" href="about.html#table-of-contents" id="table-of-contents"><h2>Table of contents</h2></a>
+<ul>
+<li><a href="about.html#who-this-book-is-for">Who this book is for</a></li>
+<li><a href="about.html#how-to-read-this-book">How to read this book</a></li>
+<li><a href="about.html#how-to-use-the-examples">How to use the examples</a></li>
+<li><a href="about.html#a-note-about-error-handling">A note about error handling</a></li>
+<li><a href="about.html#a-note-about-crate-representation">A note about crate representation</a></li>
+</ul>
+<a class="header" href="about.html#who-this-book-is-for" id="who-this-book-is-for"><h2>Who this book is for</h2></a>
+<a class="header" href="about.html#how-to-read-this-book" id="how-to-read-this-book"><h2>How to read this book</h2></a>
+<a class="header" href="about.html#how-to-use-the-examples" id="how-to-use-the-examples"><h2>How to use the examples</h2></a>
+<a class="header" href="about.html#a-note-about-error-handling" id="a-note-about-error-handling"><h2>A note about error handling</h2></a>
+<p>Error handling in Rust is robust when done correctly, but in today's
+Rust it requires a fair bit of boilerplate. Because of this one often
+sees Rust examples filled with <code>unwrap</code> calls instead of proper error
+handling.</p>
+<p>Since these recipes are intended to be reused as-is and encourage best
+practices, they set up error handling correctly when there are
+<code>Result</code> types involved.</p>
+<p>The basic pattern we use is to have a <code>fn run() -&gt; Result</code> that acts
+like the &quot;real&quot; main function. We use the <a href="https://docs.rs/error-chain/">error-chain</a> crate to make
+<code>?</code> work within <code>run</code>.</p>
+<p>The structure generally looks like:</p>
+<pre><pre class="playpen"><code class="language-rust">#[macro_use]
+extern crate error_chain;
+
+use std::net::IpAddr;
+use std::str;
+
+error_chain! {
+    foreign_links {
+        Utf8(std::str::Utf8Error);
+        AddrParse(std::net::AddrParseError);
+    }
+}
+
+fn run() -&gt; Result&lt;()&gt; {
+    let bytes = b&quot;2001:db8::1&quot;;
+
+    // Bytes to string.
+    let s = str::from_utf8(bytes)?;
+
+    // String to IP address.
+    let addr: IpAddr = s.parse()?;
+
+    println!(&quot;{:?}&quot;, addr);
+    Ok(())
+}
+
+quick_main!(run);
+</code></pre></pre>
+<p>This is using the <code>error_chain!</code> macro to define a custom <code>Error</code> and
+<code>Result</code> type, along with automatic conversions from two standard
+library error types. The automatic conversions make the <code>?</code> operator
+work. The <code>quick_main!</code> macro generates the actual <code>main</code> function and
+prints out the error if one occurred.</p>
+<p>All examples in the cookbook are full self contained programs,
+but for the sake of readability error handling boilerplate is hidden by default like below.
+In order to read full contents click on the &quot;expand&quot; (<i class="fa fa-expand"></i>)
+button located on snippets top-left corner.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+extern crate url;
+
+use url::{Url, Position};
+#
+# error_chain! {
+#     foreign_links {
+#         UrlParse(url::ParseError);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let parsed = Url::parse(&quot;https://httpbin.org/cookies/set?k2=v2&amp;k1=v1&quot;)?;
+    let cleaned: &amp;str = &amp;parsed[..Position::AfterPath];
+    println!(&quot;cleaned: {}&quot;, cleaned);
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p>For more background on error handling in Rust, read <a href="https://doc.rust-lang.org/book/error-handling.html">this page of the
+Rust book</a> and <a href="https://brson.github.io/2016/11/30/starting-with-error-chain">this blog post</a>.</p>
+<a class="header" href="about.html#a-note-about-crate-representation" id="a-note-about-crate-representation"><h2>A note about crate representation</h2></a>
+<!-- Links-->
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="intro.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="basics.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="intro.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="basics.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+
+            // START - Rust Cookbook customization
+            $("#edit-button").click(function(){
+                var editWindow = window.open("https://github.com/brson/rust-cookbook/edit/master/src/about.md");
+            });
+            // END - Rust Cookbook customization
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

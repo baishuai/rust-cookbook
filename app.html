@@ -1,0 +1,327 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Application development - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="intro.html">Table of Contents</a></li><li class="affix"><a href="about.html">About</a></li><li><a href="basics.html"><strong>1.</strong> Basics</a></li><li><a href="encoding.html"><strong>2.</strong> Encoding</a></li><li><a href="concurrency.html"><strong>3.</strong> Concurrency</a></li><li><a href="net.html"><strong>4.</strong> Networking</a></li><li><a href="app.html" class="active"><strong>5.</strong> Application development</a></li><li><a href="logging.html"><strong>6.</strong> Logging</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <!-- START - Rust Cookbook customization -->
+                        <i id="edit-button" class="fa fa-edit">Edit</i>
+                        <!-- END - Rust Cookbook customization -->
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="app.html#application-development" id="application-development"><h1>Application development</h1></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="app.html#ex-clap-basic">Parse command line arguments</a> </td><td> <a href="https://docs.rs/clap/"><img src="https://img.shields.io/crates/v/clap.svg?label=clap" alt="clap-badge" /></a> </td><td> <a href="https://crates.io/categories/command-line-interface"><img src="https://img.shields.io/badge/command_line--x.svg?style=social" alt="cat-command-line-badge" /></a> </td></tr>
+<tr><td> <a href="app.html#ex-tar-temp">Unzip a tarball to a temporary directory</a> </td><td> <a href="https://docs.rs/flate2/"><img src="https://img.shields.io/crates/v/flate2.svg?label=flate2" alt="flate2-badge" /></a> <a href="https://docs.rs/tar/"><img src="https://img.shields.io/crates/v/tar.svg?label=tar" alt="tar-badge" /></a> <a href="https://docs.rs/tempdir/"><img src="https://img.shields.io/crates/v/tempdir.svg?label=tempdir" alt="tempdir-badge" /></a> </td><td> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a> <a href="https://crates.io/categories/compression"><img src="https://img.shields.io/badge/compression--x.svg?style=social" alt="cat-compression-badge" /></a> </td></tr>
+<tr><td> <a href="app.html#ex-dedup-filenames">Recursively find duplicate file names</a> </td><td> <a href="https://docs.rs/walkdir/"><img src="https://img.shields.io/crates/v/walkdir.svg?label=walkdir" alt="walkdir-badge" /></a> </td><td> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a> </td></tr>
+<tr><td> <a href="app.html#ex-file-predicate">Recursively find all files with given predicate</a> </td><td> <a href="https://docs.rs/walkdir/"><img src="https://img.shields.io/crates/v/walkdir.svg?label=walkdir" alt="walkdir-badge" /></a> </td><td> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a> </td></tr>
+</tbody></table>
+<p><a name="ex-clap-basic"></a></p>
+<a class="header" href="app.html#parse-command-line-arguments" id="parse-command-line-arguments"><h2>Parse command line arguments</h2></a>
+<p><a href="https://docs.rs/clap/"><img src="https://img.shields.io/crates/v/clap.svg?label=clap" alt="clap-badge" /></a> <a href="https://crates.io/categories/command-line-interface"><img src="https://img.shields.io/badge/command_line--x.svg?style=social" alt="cat-command-line-badge" /></a></p>
+<pre><pre class="playpen"><code class="language-rust">extern crate clap;
+
+use clap::{Arg, App};
+
+fn main() {
+    // Define command line arguments.
+    let matches = App::new(&quot;My Test Program&quot;)
+        .version(&quot;0.1.0&quot;)
+        .author(&quot;Hackerman Jones &lt;hckrmnjones@hack.gov&gt;&quot;)
+        .about(&quot;Teaches argument parsing&quot;)
+        .arg(Arg::with_name(&quot;file&quot;)
+                 .short(&quot;f&quot;)
+                 .long(&quot;file&quot;)
+                 .takes_value(true)
+                 .help(&quot;A cool file&quot;))
+        .arg(Arg::with_name(&quot;num&quot;)
+                 .short(&quot;n&quot;)
+                 .long(&quot;number&quot;)
+                 .takes_value(true)
+                 .help(&quot;Five less than your favorite number&quot;))
+        .get_matches();
+
+    // Get value for file, or default to 'input.txt'.
+    let myfile = matches.value_of(&quot;file&quot;).unwrap_or(&quot;input.txt&quot;);
+    println!(&quot;The file passed is: {}&quot;, myfile);
+
+    // Get value for num if present, and try parsing it as i32.
+    let num_str = matches.value_of(&quot;num&quot;);
+    match num_str {
+        None =&gt; println!(&quot;No idea what your favorite number is.&quot;),
+        Some(s) =&gt; {
+            match s.parse::&lt;i32&gt;() {
+                Ok(n) =&gt; println!(&quot;Your favorite number must be {}.&quot;, n + 5),
+                Err(_) =&gt; println!(&quot;That's not a number! {}&quot;, s),
+            }
+        }
+    }
+}
+</code></pre></pre>
+<p>The <code>clap</code> crate is a simple-to-use, efficient, and full-featured library for
+parsing command line arguments and subcommands when writing console/terminal
+applications.</p>
+<p>The application can describe the structure of its command-line interface using
+<code>clap</code>'s builder style. The <a href="https://docs.rs/clap/">documentation</a> gives two other possible ways to
+instantiate an application.</p>
+<p>In the builder style, <code>with_name</code> is the unique identifier that <code>value_of</code> will
+use to retrieve the value passed. The <code>short</code> and <code>long</code> options control the
+flag the user will be expected to type; short flags look like <code>-f</code> and long
+flags look like <code>--file</code>.</p>
+<p>Usage information is generated by <code>clap</code>. The usage for the example application
+looks like this.</p>
+<pre><code>My Test Program 0.1.0
+Hackerman Jones &lt;hckrmnjones@hack.gov&gt;
+Teaches argument parsing
+
+USAGE:
+    testing [OPTIONS]
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+OPTIONS:
+    -f, --file &lt;file&gt;     A cool file
+    -n, --number &lt;num&gt;    Five less than your favorite number
+</code></pre>
+<p>We can test the application by running a command like the following.</p>
+<pre><code>$ cargo run -- -f myfile.txt -n 251
+</code></pre>
+<p>The output is:</p>
+<pre><code>The file passed is: myfile.txt
+Your favorite number must be 256.
+</code></pre>
+<p><a name="ex-tar-temp"></a></p>
+<a class="header" href="app.html#unzip-a-tarball-to-a-temporary-directory" id="unzip-a-tarball-to-a-temporary-directory"><h2>Unzip a tarball to a temporary directory</h2></a>
+<p><a href="https://docs.rs/flate2/"><img src="https://img.shields.io/crates/v/flate2.svg?label=flate2" alt="flate2-badge" /></a> <a href="https://docs.rs/tar/"><img src="https://img.shields.io/crates/v/tar.svg?label=tar" alt="tar-badge" /></a> <a href="https://docs.rs/tempdir/"><img src="https://img.shields.io/crates/v/tempdir.svg?label=tempdir" alt="tempdir-badge" /></a> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a> <a href="https://crates.io/categories/compression"><img src="https://img.shields.io/badge/compression--x.svg?style=social" alt="cat-compression-badge" /></a></p>
+<p>Uncompress (<a href="https://docs.rs/flate2/0.2.19/flate2/read/struct.GzDecoder.html#method.new"><code>flate2::read::GzDecoder::new</code></a>) and
+extract (<a href="https://docs.rs/tar/0.4.12/tar/struct.Archive.html#method.new"><code>tar::Archive::unpack</code></a>) all files form a zipped tarball
+named archive.tar.gz located in the current working directory
+inside a temporary directory (<a href="https://docs.rs/tempdir/0.3.5/tempdir/struct.TempDir.html#method.new"><code>tempdir::TempDir::new</code></a>)
+and delete everything.</p>
+<pre><pre class="playpen"><code class="language-rust no_run"># #[macro_use]
+# extern crate error_chain;
+extern crate flate2;
+extern crate tar;
+extern crate tempdir;
+
+use std::fs::File;
+use flate2::read::GzDecoder;
+use tar::Archive;
+use tempdir::TempDir;
+#
+# error_chain! {
+#     foreign_links {
+#         Io(std::io::Error);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let path = &quot;archive.tar.gz&quot;;
+
+    // Open our zipped tarball
+    let tar_gz = File::open(path)?;
+    // Uncompressed it
+    let tar = GzDecoder::new(tar_gz)?;
+    // Load the archive from the tarball
+    let mut archive = Archive::new(tar);
+    // Create a directory inside of `std::env::temp_dir()`, named with
+    // the prefix &quot;temp&quot;.
+    let tmp_dir = TempDir::new(&quot;temp&quot;)?;
+    // Unpack the archive inside the temporary directory
+    archive.unpack(tmp_dir.path())?;
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p><a name="ex-dedup-filenames"></a></p>
+<a class="header" href="app.html#recursively-find-duplicate-file-names" id="recursively-find-duplicate-file-names"><h2>Recursively find duplicate file names</h2></a>
+<p><a href="https://docs.rs/walkdir/"><img src="https://img.shields.io/crates/v/walkdir.svg?label=walkdir" alt="walkdir-badge" /></a> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a></p>
+<p>Find recusively in the current directory duplicate filenames,
+printing them only once.</p>
+<pre><pre class="playpen"><code class="language-rust no_run">extern crate walkdir;
+
+use std::collections::HashMap;
+use walkdir::WalkDir;
+
+fn main() {
+    // Counters indexed by filenames
+    let mut filenames = HashMap::new();
+
+    // List recusively all files in the current directory filtering out
+    // directories and files not accessible (permission denied)
+    for entry in WalkDir::new(&quot;.&quot;)
+            .into_iter()
+            .filter_map(Result::ok)
+            .filter(|e| !e.file_type().is_dir()) {
+        // Get entry's filename
+        let f_name = String::from(entry.file_name().to_string_lossy());
+        // Get or initialize the counter
+        let counter = filenames.entry(f_name.clone()).or_insert(0);
+        // Update the counter
+        *counter += 1;
+
+        if *counter == 2 {
+            println!(&quot;{}&quot;, f_name);
+        }
+    }
+}
+</code></pre></pre>
+<p><a name="ex-file-predicate"></a></p>
+<a class="header" href="app.html#recursively-find-all-files-with-given-predicate" id="recursively-find-all-files-with-given-predicate"><h2>Recursively find all files with given predicate</h2></a>
+<p>Use the file names and metadata to recursively find in the current directory JSON files modified within the last day.</p>
+<p><a href="https://docs.rs/walkdir/"><img src="https://img.shields.io/crates/v/walkdir.svg?label=walkdir" alt="walkdir-badge" /></a> <a href="https://crates.io/categories/filesystem"><img src="https://img.shields.io/badge/filesystem--x.svg?style=social" alt="cat-filesystem-badge" /></a></p>
+<pre><pre class="playpen"><code class="language-rust no_run"># #[macro_use]
+# extern crate error_chain;
+extern crate walkdir;
+
+use walkdir::WalkDir;
+#
+# error_chain! {
+#     foreign_links {
+#         WalkDir(walkdir::Error);
+#         Io(std::io::Error);
+#         SystemTime(std::time::SystemTimeError);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    // List recusively all accessible files in the current directory
+    for entry in WalkDir::new(&quot;.&quot;).into_iter().filter_map(|e| e.ok()) {
+        // Get entry's filename
+        let f_name = entry.file_name().to_string_lossy();
+        // Get entry's modified time
+        let sec = entry.metadata()?.modified()?;
+
+        // Print JSON files modified within the last day
+        if f_name.ends_with(&quot;.json&quot;) &amp;&amp; sec.elapsed()?.as_secs() &lt; 86400 {
+            println!(&quot;{}&quot;, f_name);
+        }
+    }
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<!-- Categories -->
+<!-- Crates -->
+<!-- Reference -->
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="net.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="logging.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="net.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="logging.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+
+            // START - Rust Cookbook customization
+            $("#edit-button").click(function(){
+                var editWindow = window.open("https://github.com/brson/rust-cookbook/edit/master/src/app.md");
+            });
+            // END - Rust Cookbook customization
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

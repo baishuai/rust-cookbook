@@ -1,0 +1,446 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Logging - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="intro.html">Table of Contents</a></li><li class="affix"><a href="about.html">About</a></li><li><a href="basics.html"><strong>1.</strong> Basics</a></li><li><a href="encoding.html"><strong>2.</strong> Encoding</a></li><li><a href="concurrency.html"><strong>3.</strong> Concurrency</a></li><li><a href="net.html"><strong>4.</strong> Networking</a></li><li><a href="app.html"><strong>5.</strong> Application development</a></li><li><a href="logging.html" class="active"><strong>6.</strong> Logging</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <!-- START - Rust Cookbook customization -->
+                        <i id="edit-button" class="fa fa-edit">Edit</i>
+                        <!-- END - Rust Cookbook customization -->
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="logging.html#logging" id="logging"><h1>Logging</h1></a>
+<table><thead><tr><th> Recipe </th><th> Crates </th><th> Categories </th></tr></thead><tbody>
+<tr><td> <a href="logging.html#ex-log-debug">Log a debug message to the console</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-error">Log an error message to the console</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-mod">Enable log levels per module</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-custom-logger">Log messages with a custom logger</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-timestamp">Include timestamp in log messages</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> <a href="https://docs.rs/chrono/"><img src="https://img.shields.io/crates/v/chrono.svg?label=chrono" alt="chrono-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-syslog">Log to the Unix syslog</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/syslog/"><img src="https://img.shields.io/crates/v/syslog.svg?label=syslog" alt="syslog-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+<tr><td> <a href="logging.html#ex-log-custom">Log messages to a custom location</a> </td><td> <a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> </td><td> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a> </td></tr>
+</tbody></table>
+<p><a name="ex-log-debug"></a></p>
+<a class="header" href="logging.html#log-a-debug-message-to-the-console" id="log-a-debug-message-to-the-console"><h2>Log a debug message to the console</h2></a>
+<p><a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a></p>
+<p>The <code>log</code> crate provides logging utilities. The <code>env_logger</code> crate configures
+logging via an environment variable.</p>
+<pre><pre class="playpen"><code class="language-rust">#[macro_use]
+extern crate log;
+extern crate env_logger;
+#
+# #[macro_use]
+# extern crate error_chain;
+#
+# error_chain! {
+#     foreign_links {
+#         SetLogger(log::SetLoggerError);
+#     }
+# }
+
+fn execute_query(query: &amp;str) {
+    debug!(&quot;Executing query: {}&quot;, query);
+
+    // then do the thing
+}
+
+fn run() -&gt; Result&lt;()&gt; {
+    env_logger::init()?;
+
+    execute_query(&quot;DROP TABLE students&quot;);
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p>If you run this code, you'll notice that no output is printed. By default, the
+log level is <code>error</code>, and any lower levels are dropped.</p>
+<p>We can change that easily by setting the <code>RUST_LOG</code> environment variable:</p>
+<pre><code>$ RUST_LOG=debug cargo run
+</code></pre>
+<p>After running this, you'll likely see a pile of logs from cargo, as well as the
+following line at the very end of the output:</p>
+<pre><code>DEBUG:main: Executing query: DROP TABLE students
+</code></pre>
+<p><a name="ex-log-error"></a></p>
+<a class="header" href="logging.html#log-an-error-message-to-the-console" id="log-an-error-message-to-the-console"><h2>Log an error message to the console</h2></a>
+<p><a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a></p>
+<pre><pre class="playpen"><code class="language-rust">#[macro_use]
+extern crate log;
+extern crate env_logger;
+#
+# #[macro_use]
+# extern crate error_chain;
+#
+# error_chain! {
+#     foreign_links {
+#         SetLogger(log::SetLoggerError);
+#     }
+# }
+
+fn execute_query(_query: &amp;str) -&gt; Result&lt;()&gt; {
+    // Do the thing, or maybe not
+
+    bail!(&quot;I'm afraid I can't do that&quot;)
+}
+
+fn run() -&gt; Result&lt;()&gt; {
+    env_logger::init()?;
+
+    let response = execute_query(&quot;DROP TABLE students&quot;);
+    if let Err(err) = response {
+        // Log the error message and continue
+        error!(&quot;Failed to execute query: {}&quot;, err);
+    }
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p>Run this code with <code>cargo run</code> and you should see the following line:</p>
+<pre><code>DEBUG:main: Failed to execute query: I'm afraid I can't do that
+</code></pre>
+<p><a name="ex-log-mod"></a></p>
+<a class="header" href="logging.html#enable-log-levels-per-module" id="enable-log-levels-per-module"><h2>Enable log levels per module</h2></a>
+<p><a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a></p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+#[macro_use]
+extern crate log;
+extern crate env_logger;
+
+mod foo {
+    mod bar {
+        pub fn run() {
+            warn!(&quot;[bar] warn&quot;);
+            info!(&quot;[bar] info&quot;);
+            debug!(&quot;[bar] debug&quot;);
+        }
+    }
+
+    pub fn run() {
+        warn!(&quot;[foo] warn&quot;);
+        info!(&quot;[foo] info&quot;);
+        debug!(&quot;[foo] debug&quot;);
+        bar::run();
+    }
+}
+#
+# error_chain! {
+#     foreign_links {
+#         SetLogger(log::SetLoggerError);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    env_logger::init()?;
+    warn!(&quot;[root] warn&quot;);
+    info!(&quot;[root] info&quot;);
+    debug!(&quot;[root] debug&quot;);
+    foo::run();
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p><a href="https://docs.rs/env_logger/"><code>env_logger</code></a> output is controlled by <a href="https://doc.rust-lang.org/log/env_logger/#enabling-logging"><code>RUST_LOG</code></a> environmental
+variable on per module basis with comma separated entries in format <code>path::to::module=log_level</code>.
+Assuming application <code>test</code> is run as follows:</p>
+<pre><code>RUST_LOG=&quot;warn,test::foo=info,test::foo::bar=debug&quot; ./test
+</code></pre>
+<p>The default <a href="https://doc.rust-lang.org/log/log/enum.LogLevel.html"><code>log::LogLevel</code></a> is set to <code>warn</code>, while log levels for module <code>foo</code> and nested module <code>foo::bar</code> are set respectively to <code>info</code> and <code>debug</code>.</p>
+<p>The output is:</p>
+<pre><code>WARN:test: [root] warn
+WARN:test::foo: [foo] warn
+INFO:test::foo: [foo] info
+WARN:test::foo::bar: [bar] warn
+INFO:test::foo::bar: [bar] info
+DEBUG:test::foo::bar: [bar] debug
+</code></pre>
+<p><a name="ex-log-custom-logger"></a></p>
+<a class="header" href="logging.html#log-messages-with-a-custom-logger" id="log-messages-with-a-custom-logger"><h2>Log messages with a custom logger</h2></a>
+<p><a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a></p>
+<p>Custom logger <code>ConsoleLogger</code> is implemented with <a href="https://doc.rust-lang.org/log/log/trait.Log.html"><code>log::Log</code></a> trait and installed
+via <a href="https://doc.rust-lang.org/log/log/fn.set_logger.html"><code>log::set_logger</code></a>. Messages are logged to stdout.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+#[macro_use]
+extern crate log;
+
+use log::{LogRecord, LogLevel, LogMetadata, LogLevelFilter};
+
+struct ConsoleLogger;
+
+impl log::Log for ConsoleLogger {
+    fn enabled(&amp;self, metadata: &amp;LogMetadata) -&gt; bool {
+        metadata.level() &lt;= LogLevel::Info
+    }
+
+    fn log(&amp;self, record: &amp;LogRecord) {
+        if self.enabled(record.metadata()) {
+            println!(&quot;Rust says: {} - {}&quot;, record.level(), record.args());
+        }
+    }
+}
+#
+# error_chain! {
+#     foreign_links {
+#         SetLogger(log::SetLoggerError);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    log::set_logger(|max_log_level| {
+                        max_log_level.set(LogLevelFilter::Info);
+                        Box::new(ConsoleLogger)
+                    })?;
+
+    info!(&quot;hello log&quot;);
+    warn!(&quot;warning&quot;);
+    error!(&quot;oops&quot;);
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p><a name="ex-log-timestamp"></a></p>
+<a class="header" href="logging.html#include-timestamp-in-log-messages" id="include-timestamp-in-log-messages"><h2>Include timestamp in log messages</h2></a>
+<p><a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/env_logger/"><img src="https://img.shields.io/crates/v/env_logger.svg?label=env_logger" alt="env_logger-badge" /></a> <a href="https://docs.rs/chrono/"><img src="https://img.shields.io/crates/v/chrono.svg?label=chrono" alt="chrono-badge" /></a> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a></p>
+<p>Creates a custom logger configuration with <a href="https://doc.rust-lang.org/log/env_logger/struct.LogBuilder.html"><code>env_logger::LogBuilder</code></a>.
+Each log entry calls <a href="https://docs.rs/chrono/*/chrono/offset/local/struct.Local.html#method.now"><code>Local::now</code></a> to get the current <a href="https://docs.rs/chrono/*/chrono/datetime/struct.DateTime.html"><code>DateTime</code></a> in local timezone and uses <a href="https://docs.rs/chrono/*/chrono/datetime/struct.DateTime.html#method.format"><code>DateTime::format</code></a> with <a href="https://docs.rs/chrono/*/chrono/format/strftime/index.html#specifiers"><code>strftime::specifiers</code></a> to format a timestamp used in the final log.</p>
+<p>The example calls <a href="https://doc.rust-lang.org/log/env_logger/struct.LogBuilder.html#method.format"><code>LogBuilder::format</code></a> to set a closure which formats each
+message text with timestamp, <a href="https://doc.rust-lang.org/log/log/struct.LogRecord.html#method.level"><code>LogRecord::level</code></a> and body (<a href="https://doc.rust-lang.org/log/log/struct.LogRecord.html#method.args"><code>LogRecord::args</code></a>).
+Subsequently calls <a href="https://doc.rust-lang.org/log/env_logger/struct.LogBuilder.html#method.parse"><code>LogBuilder::parse</code></a> which parses <code>MY_APP_LOG</code> environmental variable contents in the form of <a href="https://doc.rust-lang.org/log/env_logger/#enabling-logging"><code>RUST_LOG</code></a> syntax.
+Finally calls <a href="https://doc.rust-lang.org/log/env_logger/struct.LogBuilder.html#method.init"><code>LogBuilder::init</code></a> to initialize the logger.
+All these steps are normally done internally by <a href="https://doc.rust-lang.org/log/env_logger/fn.init.html"><code>env_logger::init</code></a>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #[macro_use]
+# extern crate error_chain;
+#[macro_use]
+extern crate log;
+extern crate env_logger;
+extern crate chrono;
+
+use chrono::Local;
+use env_logger::LogBuilder;
+use std::env;
+#
+# error_chain! {
+#     foreign_links {
+#         SetLogger(log::SetLoggerError);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    LogBuilder::new()
+        .format(|record| {
+                    format!(&quot;{} [{}] - {}&quot;,
+                            Local::now().format(&quot;%Y-%m-%dT%H:%M:%S&quot;),
+                            record.level(),
+                            record.args())
+                })
+        .parse(&amp;env::var(&quot;MY_APP_LOG&quot;).unwrap_or_default())
+        .init()?;
+
+    warn!(&quot;warn&quot;);
+    info!(&quot;info&quot;);
+    debug!(&quot;debug&quot;);
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p>Calling <code>MY_APP_LOG=&quot;info&quot; cargo run</code> will result in similar output:</p>
+<pre><code>2017-05-22T21:57:06 [WARN] - warn
+2017-05-22T21:57:06 [INFO] - info
+</code></pre>
+<p><a name="ex-log-syslog"></a></p>
+<a class="header" href="logging.html#log-to-the-unix-syslog" id="log-to-the-unix-syslog"><h2>Log to the Unix syslog</h2></a>
+<p><a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/syslog/"><img src="https://img.shields.io/crates/v/syslog.svg?label=syslog" alt="syslog-badge" /></a> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a></p>
+<p>Messages are logged to <a href="https://www.gnu.org/software/libc/manual/html_node/Overview-of-Syslog.html">UNIX syslog</a>. Logger backend is initialized
+with <a href="https://docs.rs/syslog/*/syslog/fn.init.html"><code>syslog::init</code></a>.
+<a href="https://docs.rs/syslog/*/syslog/enum.Facility.html"><code>syslog::Facility</code></a> indicates type of program submitting log.
+<a href="https://doc.rust-lang.org/log/log/enum.LogLevelFilter.html"><code>log::LogLevelFilter</code></a> denotes allowed log verbosity
+and <code>Option&lt;&amp;str&gt;</code> holds optional application name.</p>
+<pre><pre class="playpen"><code class="language-rust no_run"># #[macro_use]
+# extern crate error_chain;
+#[macro_use]
+extern crate log;
+extern crate syslog;
+
+use log::LogLevelFilter;
+use syslog::Facility;
+#
+# error_chain! {
+#     foreign_links {
+#         SetLogger(log::SetLoggerError);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    syslog::init(Facility::LOG_USER,
+                 LogLevelFilter::Debug,
+                 Some(&quot;My app name&quot;))?;
+    debug!(&quot;this is a debug {}&quot;, &quot;message&quot;);
+    error!(&quot;this is an error!&quot;);
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<p><a name="ex-log-custom"></a></p>
+<a class="header" href="logging.html#log-messages-to-a-custom-location" id="log-messages-to-a-custom-location"><h2>Log messages to a custom location</h2></a>
+<p><a href="https://docs.rs/log/"><img src="https://img.shields.io/crates/v/log.svg?label=log" alt="log-badge" /></a> <a href="https://docs.rs/log4rs/"><img src="https://img.shields.io/crates/v/log4rs.svg?label=log4rs" alt="log4rs-badge" /></a> <a href="https://crates.io/categories/debugging"><img src="https://img.shields.io/badge/debugging--x.svg?style=social" alt="cat-debugging-badge" /></a></p>
+<p>Logs are configured to log to a custom location by using log4rs. log4rs can use either an external yaml file or a programmatically constructed configuration.</p>
+<p>First log file configuration is created using <a href="https://docs.rs/log4rs/*/log4rs/append/file/struct.FileAppender.html"><code>log4rs::append::file::FileAppender</code></a> using a custom pattern from <a href="https://docs.rs/log4rs/*/log4rs/encode/pattern/index.html"><code>log4rs::encode::pattern</code></a>.</p>
+<p>Then this is assigned to the <a href="https://docs.rs/log4rs/*/log4rs/config/struct.Config.html"><code>log4rs::config::Config</code></a> which has a root appender that uses the <code>logfile</code> appender that was just created, and sets the default <a href="https://doc.rust-lang.org/log/log/enum.LogLevelFilter.html"><code>log::LogLevelFilter</code></a> so that any logs with <code>Info</code> level or higher will be sent to the logger.</p>
+<pre><pre class="playpen"><code class="language-rust no_run"># #[macro_use]
+# extern crate error_chain;
+#[macro_use]
+extern crate log;
+extern crate log4rs;
+
+use log::LogLevelFilter;
+use log4rs::append::file::FileAppender;
+use log4rs::encode::pattern::PatternEncoder;
+use log4rs::config::{Appender, Config, Root};
+#
+# error_chain! {
+#     foreign_links {
+#         Io(std::io::Error);
+#         LogConfig(log4rs::config::Errors);
+#         SetLogger(log::SetLoggerError);
+#     }
+# }
+
+fn run() -&gt; Result&lt;()&gt; {
+    let logfile = FileAppender::builder()
+        .encoder(Box::new(PatternEncoder::new(&quot;{l} - {m}\n&quot;)))
+        .build(&quot;log/output.log&quot;)?;
+
+    let config = Config::builder()
+        .appender(Appender::builder().build(&quot;logfile&quot;, Box::new(logfile)))
+        .build(Root::builder()
+                   .appender(&quot;logfile&quot;)
+                   .build(LogLevelFilter::Info))?;
+
+    log4rs::init_config(config)?;
+
+    info!(&quot;Hello, world!&quot;);
+
+    Ok(())
+}
+#
+# quick_main!(run);
+</code></pre></pre>
+<!-- Categories -->
+<!-- Crates -->
+<!-- Reference -->
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="app.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+
+            </div>
+
+            
+                <a href="app.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+
+            // START - Rust Cookbook customization
+            $("#edit-button").click(function(){
+                var editWindow = window.open("https://github.com/brson/rust-cookbook/edit/master/src/logging.md");
+            });
+            // END - Rust Cookbook customization
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>
